@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student List</title>
+    <style>
+        /* Basic reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f5f7fa; padding: 20px; color: #333; }
+        h1 { text-align: center; margin-bottom: 20px; color: #2c3e50; }
+
+        /* Table */
+        table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+        thead { background: #2c3e50; color: #fff; }
+        th, td { padding: 12px 15px; text-align: center; border-bottom: 1px solid #ddd; }
+        tbody tr:nth-child(even) { background: #f2f2f2; }
+        tbody tr:hover { background: #e6f7ff; }
+
+        /* Actions */
+        .actions a { display: inline-block; margin: 5px; padding: 6px 12px; text-decoration: none; border-radius: 5px; font-size: 0.9rem; transition: 0.3s; }
+        .btn-view { background: #3498db; color: #fff; }
+        .btn-view:hover { background: #2980b9; }
+        .btn-edit { background: #f39c12; color: #fff; }
+        .btn-edit:hover { background: #d68910; }
+        .btn-delete { background: #e74c3c; color: #fff; }
+        .btn-delete:hover { background: #c0392b; }
+
+        /* Top bar */
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .topbar a { text-decoration: none; background: #27ae60; color: #fff; padding: 8px 14px; border-radius: 6px; }
+        .topbar a:hover { background: #1e874b; }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>Student List</h1>
+    <!-- Link to create a new student -->
+    <a th:href="@{/student/ui/create}">+ New Student</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>IRP</th>
+        <th>Course</th>
+        <th>Course Hours</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <!-- Expects a model attribute 'students' (List<StudentModel>) -->
+    <tr th:each="student : ${students}">
+        <td th:text="${student.id}">1</td>
+        <td th:text="${student.name}">Name</td>
+        <td th:text="${student.email}">email@example.com</td>
+        <td th:text="${student.irp}">12345</td>
+
+        <!-- Course (could be null if allowed) -->
+        <td>
+            <span th:if="${student.course != null}" th:text="${student.course.name}">Course Name</span>
+            <span th:if="${student.course == null}">No course</span>
+        </td>
+        <td>
+            <span th:if="${student.course != null}" th:text="${student.course.hours}">40</span>
+            <span th:if="${student.course == null}">-</span>
+        </td>
+
+        <!-- Actions -->
+        <td class="actions">
+            <a class="btn-view" th:href="@{/student/ui/view/{id}(id=${student.id})}">View Details</a>
+            <a class="btn-edit" th:href="@{/student/ui/edit/{id}(id=${student.id})}">Edit</a>
+            <a class="btn-delete" th:href="@{/student/ui/delete/{id}(id=${student.id})}">Delete</a>
+        </td>
+    </tr>
+
+    <!-- Case when the list is empty -->
+    <tr th:if="${#lists.isEmpty(students)}">
+        <td colspan="7">No students registered.</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

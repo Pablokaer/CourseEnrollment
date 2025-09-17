@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Course List</title>
+    <style>
+        /* Basic reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f5f7fa; padding: 20px; color: #333; }
+        h1 { text-align: center; margin-bottom: 20px; color: #2c3e50; }
+
+        /* Table */
+        table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+        thead { background: #2c3e50; color: #fff; }
+        th, td { padding: 12px 15px; text-align: center; border-bottom: 1px solid #ddd; }
+        tbody tr:nth-child(even) { background: #f2f2f2; }
+        tbody tr:hover { background: #e6f7ff; }
+
+        /* Actions */
+        .actions a { display: inline-block; margin: 5px; padding: 6px 12px; text-decoration: none; border-radius: 5px; font-size: 0.9rem; transition: 0.3s; }
+        .btn-view { background: #3498db; color: #fff; }
+        .btn-view:hover { background: #2980b9; }
+        .btn-edit { background: #f39c12; color: #fff; }
+        .btn-edit:hover { background: #d68910; }
+        .btn-delete { background: #e74c3c; color: #fff; }
+        .btn-delete:hover { background: #c0392b; }
+
+        /* Top bar */
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .topbar a { text-decoration: none; background: #27ae60; color: #fff; padding: 8px 14px; border-radius: 6px; }
+        .topbar a:hover { background: #1e874b; }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>Course List</h1>
+    <!-- Link to create a new course -->
+    <a th:href="@{/course/ui/create}">+ New Course</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Course Name</th>
+        <th>Hours</th>
+        <th>Enrolled Students</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <!-- Expects a model attribute 'courses' (List<CourseModel>) -->
+    <tr th:each="course : ${courses}">
+        <td th:text="${course.id}">1</td>
+        <td th:text="${course.name}">Spring Boot Basics</td>
+        <td th:text="${course.hours}">40</td>
+        <td th:text="${course.students != null ? course.students.size() : 0}">0</td>
+
+        <!-- Actions -->
+        <td class="actions">
+            <a class="btn-view" th:href="@{/course/ui/view/{id}(id=${course.id})}">View Details</a>
+            <a class="btn-edit" th:href="@{/course/ui/edit/{id}(id=${course.id})}">Edit</a>
+            <a class="btn-delete" th:href="@{/course/ui/delete/{id}(id=${course.id})}">Delete</a>
+        </td>
+    </tr>
+
+    <!-- Case when the list is empty -->
+    <tr th:if="${#lists.isEmpty(courses)}">
+        <td colspan="5">No courses registered.</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

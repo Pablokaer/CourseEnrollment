@@ -57,3 +57,6 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: D:/programação
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 40 more
+2025-09-17 22:25:32.056636+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]TB_STUDENT"; expected "TRUNCATE"; SQL statement:
+TB_STUDENT [42001-232]
