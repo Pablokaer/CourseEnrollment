@@ -28,7 +28,6 @@ This project demonstrates a full-stack backend solution with database persistenc
 - Action buttons for **view details, edit, and delete**.
 - Ready for extension (create/edit forms, details pages).
 
----
 
 ## Tech Stack
 
